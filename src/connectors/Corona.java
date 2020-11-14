@@ -1,6 +1,7 @@
 package connectors;
 
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.List;
 import models.Connector;
@@ -9,6 +10,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+/**
+ * This connector generates a report for corona virus cases in Canada.
+ * It fetches and parses the raw HTML from CTVNews website.
+ */
 public class Corona implements Connector {
     public enum Properties {
         DAILY_REPORT
@@ -17,7 +22,7 @@ public class Corona implements Connector {
     private final String URL = "https://www.ctvnews.ca/health/coronavirus/tracking-every-case-of-covid-19-in-canada-1.4852102";
     private final String ERROR_FETCHING_HTML = "Error when fetching the HTML";
 
-    // Helpers for Province property
+    // Helpers for province data
     private final HashMap<String, String> provinceCSS = new HashMap<>();
     private final HashMap<String, String> provinceName = new HashMap<>();
 
@@ -27,10 +32,11 @@ public class Corona implements Connector {
 
     @Override
     public String getData(List<String> properties, List<Filter> filters) {
+        validateInput(properties, filters);
+
         StringBuilder data = new StringBuilder();
 
         Document document = fetchHTML();
-
         if(document == null) {
             return ERROR_FETCHING_HTML;
         }
@@ -106,5 +112,15 @@ public class Corona implements Connector {
         provinceName.put("Yukon", "Yukon");
         provinceName.put("NorthwestTerritories", "Northwest Territories");
         provinceName.put("Nunavut", "Nunavut");
+    }
+
+    private void validateInput(List<String> properties, List<Filter> filters) {
+        if(properties == null) {
+            throw new InvalidParameterException("properties parameter should not be null.");
+        }
+
+        if(filters == null) {
+            throw new InvalidParameterException("filters parameter should not be null.");
+        }
     }
 }
