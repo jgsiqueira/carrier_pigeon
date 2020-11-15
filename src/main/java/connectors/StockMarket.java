@@ -15,8 +15,7 @@ import yahoofinance.YahooFinance;
 
 public class StockMarket implements Connector {
     public enum Properties {
-        QUOTE,
-        STATS
+        QUOTE
     }
 
     @Override
@@ -80,7 +79,6 @@ public class StockMarket implements Connector {
 
         BigDecimal previous = stock.getQuote().getPreviousClose();
         BigDecimal current = stock.getQuote().getPrice();
-
 
         double variation = 100.0 * (1.0 - Double.parseDouble(current.divide(previous, 4, RoundingMode.HALF_EVEN).toPlainString()));
 

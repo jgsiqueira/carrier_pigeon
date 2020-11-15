@@ -17,10 +17,8 @@ public class Main {
 
         // Stock data
         ArrayList<Filter> stockFilters = new ArrayList<>();
-        stockFilters.add(new Filter(StockMarket.Properties.QUOTE.name(), "GOOGL", 5));
-        stockFilters.add(new Filter(StockMarket.Properties.QUOTE.name(), "AAPL", 5));
-        stockFilters.add(new Filter(StockMarket.Properties.STATS.name(), "GOOGL", 5));
-        stockFilters.add(new Filter(StockMarket.Properties.STATS.name(), "AAPL", 5));
+        stockFilters.add(new Filter(StockMarket.Properties.QUOTE.name(), "GOOGL", 0));
+        stockFilters.add(new Filter(StockMarket.Properties.QUOTE.name(), "AAPL", 0));
 
         ArrayList<String> stockProperties = new ArrayList<>();
         stockProperties.add(StockMarket.Properties.QUOTE.name());
