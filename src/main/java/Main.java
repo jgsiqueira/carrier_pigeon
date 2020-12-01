@@ -1,5 +1,7 @@
 import connectors.Corona;
 import connectors.StockMarket;
+import destinations.email.Email;
+import destinations.email.SendGrid;
 import java.util.ArrayList;
 import models.Filter;
 
@@ -30,9 +32,7 @@ public class Main {
         StockMarket stockMarket = new StockMarket();
         String dataStock = stockMarket.getData(stockProperties, stockFilters);
 
-        // Print
-        System.out.println(dataCorona);
-        System.out.println("---------------\n\n");
-        System.out.println(dataStock);
+        Email email = new SendGrid("", "", "Test Carrier Pigeon", "");
+        email.sendMessage(dataCorona + "\n-----\n" + dataStock);
     }
 }
