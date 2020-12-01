@@ -34,7 +34,7 @@ public class StockMarket implements Connector {
                     String symbol = filter.getValue();
                     Stock stock = stocks.get(symbol);
 
-                    data.append(String.format("[%s] %s:\n", symbol, stock.getName()));
+                    data.append(String.format("[%s] %s:\n", symbol, stock.getName().replace("&amp;", "&")));
                     data.append(getStockQuote(stock));
                     data.append("\n");
                 }
@@ -77,13 +77,28 @@ public class StockMarket implements Connector {
     private String getStockQuote(Stock stock) {
         StringBuilder data = new StringBuilder();
 
+        BigDecimal change = stock.getQuote().getChangeInPercent();
         BigDecimal previous = stock.getQuote().getPreviousClose();
         BigDecimal current = stock.getQuote().getPrice();
 
-        double variation = 100.0 * (1.0 - Double.parseDouble(current.divide(previous, 4, RoundingMode.HALF_EVEN).toPlainString()));
+        BigDecimal yearHigh = stock.getQuote().getYearHigh();
+        BigDecimal yearHighChange = stock.getQuote().getChangeFromYearHighInPercent();
+
+        BigDecimal yearLow = stock.getQuote().getYearLow();
+        BigDecimal yearLowChange = stock.getQuote().getChangeFromYearLowInPercent();
+
+        BigDecimal avg50Days = stock.getQuote().getPriceAvg50().setScale(2, RoundingMode.CEILING);
+        BigDecimal avg50DaysChange = stock.getQuote().getChangeFromAvg50InPercent();
+
+        BigDecimal avg200Days = stock.getQuote().getPriceAvg200().setScale(2, RoundingMode.CEILING);
+        BigDecimal avg200DaysChange = stock.getQuote().getChangeFromAvg200InPercent();
 
         data.append(String.format("* Previous Close: %s %s\n", previous.toPlainString(), stock.getCurrency()));
-        data.append(String.format("* Current  Price: %s %s (%.2f %%)\n", current.toPlainString(), stock.getCurrency(), variation));
+        data.append(String.format("* Current Price : %s %s (%s %%)\n", current.toPlainString(), stock.getCurrency(), change.toPlainString()));
+        data.append(String.format("* Yeah High     : %s %s (%s %%)\n", yearHigh.toPlainString(), stock.getCurrency(), yearHighChange.toPlainString()));
+        data.append(String.format("* Yeah Low      : %s %s (%s %%)\n", yearLow.toPlainString(), stock.getCurrency(), yearLowChange.toPlainString()));
+        data.append(String.format("* 50 days avg   : %s %s (%s %%)\n", avg50Days.toPlainString(), stock.getCurrency(), avg50DaysChange.toPlainString()));
+        data.append(String.format("* 200 days avg  : %s %s (%s %%)\n", avg200Days.toPlainString(), stock.getCurrency(), avg200DaysChange.toPlainString()));
 
         return data.toString();
     }

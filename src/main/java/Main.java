@@ -11,7 +11,7 @@ public class Main {
 
         ArrayList<Filter> coronaFilters = new ArrayList<>();
         coronaFilters.add(new Filter(Corona.Properties.DAILY_REPORT.name(), "BritishColumbia", 5));
-        coronaFilters.add(new Filter(Corona.Properties.DAILY_REPORT.name(), "Quebec", 3));
+        coronaFilters.add(new Filter(Corona.Properties.DAILY_REPORT.name(), "Quebec", 5));
 
         String dataCorona = corona.getData(coronaProperties, coronaFilters);
 
@@ -19,6 +19,10 @@ public class Main {
         ArrayList<Filter> stockFilters = new ArrayList<>();
         stockFilters.add(new Filter(StockMarket.Properties.QUOTE.name(), "GOOGL", 0));
         stockFilters.add(new Filter(StockMarket.Properties.QUOTE.name(), "AAPL", 0));
+        stockFilters.add(new Filter(StockMarket.Properties.QUOTE.name(), "MSFT", 0));
+        stockFilters.add(new Filter(StockMarket.Properties.QUOTE.name(), "VRE.TO", 0));
+        stockFilters.add(new Filter(StockMarket.Properties.QUOTE.name(), "VFV.TO", 0));
+        stockFilters.add(new Filter(StockMarket.Properties.QUOTE.name(), "XEI.TO", 0));
 
         ArrayList<String> stockProperties = new ArrayList<>();
         stockProperties.add(StockMarket.Properties.QUOTE.name());
